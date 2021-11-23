@@ -1,5 +1,0 @@
-1) Создаем бокс Ubuntu 18.04 с помощью Packer (Ubuntu1804.json)
-2) Запускаем этот бокс в вагранте(Vagrantfile)
-3) С помощью Ansible добавляем софт на ВМ(playbook.yml)
-4) Пробрасываем порты(Vagrantfile)
-5) Заменяем mysql на mariadb с помощью Ansible(swap_mysql.yml)
