@@ -20,12 +20,12 @@ pipeline {
                 '''
             }
         }
-        stage("Start or Restart docker container (port:4000)") {
+        stage("Start or Restart docker container (port:5000)") {
             steps {
                 echo "============== Start or Restart docker container ==================" 
                 sh '''
                     if [ "$(docker ps -a | grep "python_prod")" ]; then docker stop python_prod; docker rm python_prod; fi
-                    docker run -d --name python_prod -p 4000:4000 python_prod:latest
+                    docker run -d --name python_prod -p 5000:5000 python_prod:latest
                 '''
             }
         }
