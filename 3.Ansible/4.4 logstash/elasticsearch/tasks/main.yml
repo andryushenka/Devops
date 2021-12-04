@@ -1,0 +1,35 @@
+---
+- name: install elasticsearch
+  apt: 
+   deb: https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.4.2/elasticsearch-2.4.2.deb
+  notify:
+    - restart elasticsearch
+
+- name: adding plugins
+  stat:
+    path: "/usr/share/elasticsearch/plugins/{{ item.name }}"
+  loop: "{{ plugins }}"
+  register: add_stat
+
+- name: install plugins
+  shell: /usr/share/elasticsearch/bin/plugin install {{ item.item.url }}
+  when: (item.stat.exists|bool == false)
+  loop: "{{ add_stat.results }}"
+
+- name: line removing elasticsearch.yml
+  lineinfile: 
+    dest: /etc/elasticsearch/elasticsearch.yml
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items: "{{ lines_for_removing }}"
+
+- name: line adding elasticsearch.yml
+  lineinfile:
+    path: /etc/elasticsearch/elasticsearch.yml
+    line: "{{ item }}"
+    insertafter: '^(.*)http.port(.*)$'
+  with_items: '{{ lines_for_adding }}'
+  notify:
+    - restart elasticsearch
+
+  

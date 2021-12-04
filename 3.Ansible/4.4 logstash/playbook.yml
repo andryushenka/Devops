@@ -1,0 +1,23 @@
+---
+- hosts: logstash
+  become: yes
+  roles:
+  - apt
+  - ntp
+  - monit
+  - java
+  - logstash
+  - elasticsearch
+
+  post_tasks:
+  - name: cat id
+    shell: cat /var/lib/dbus/machine-id 
+    register: id
+
+  - name: Creating a haproxy.ini file
+    copy:
+      dest: "/vagrant/haproxy.ini"
+      content: |
+        [general]
+        uniqueID={{ id }}
+   

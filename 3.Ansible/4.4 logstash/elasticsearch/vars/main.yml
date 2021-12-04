@@ -1,0 +1,15 @@
+
+plugins: 
+  - { name: hq, url: https://github.com/ElasticHQ/elasticsearch-HQ/archive/refs/tags/v2.0.3.zip }
+  - { name: head, url: mobz/elasticsearch-head }
+  - { name: cloud-aws, url: https://repo1.maven.org/maven2/org/elasticsearch/plugin/cloud-aws/2.4.2/cloud-aws-2.4.2.zip }
+
+lines_for_removing:
+  - { regexp: '^(.*)cluster.name(.*)$', line: 'cluster.name: logstash'}
+  - { regexp: '^(.*)network.host(.*)$', line: 'network.host: {{ inventory_hostname }}'}
+  - { regexp: '^(.*)http.port(.*)$', line: 'http.port: 9200'}
+
+lines_for_adding:
+  - http.cors.enabled : true
+
+
