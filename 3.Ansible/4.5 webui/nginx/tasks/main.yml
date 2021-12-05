@@ -1,0 +1,18 @@
+---
+- name: install nginx
+  apt:
+    name: nginx
+    state: latest
+
+- name: Backup default nginx configuration file
+  become: yes
+  shell: "{{ item }}"
+  loop: 
+    - mv /etc/nginx/sites-available/default /etc/nginx/sites-available/original_backup_default
+    - cd /etc/nginx/sites-available && touch default
+
+- name: template kibana.cfg
+  template: 
+    src: kibana.cfg
+    dest: /etc/nginx/sites-available/default
+  notify: restart nginx  

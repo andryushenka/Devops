@@ -1,0 +1,26 @@
+---
+- hosts: webui
+  become: yes
+  roles:
+  - apt
+  - ntp
+  - monit
+  - rsyslog
+  - kibana
+  - nginx
+  - monit
+  
+ 
+
+  post_tasks:
+  - name: cat id
+    shell: cat /var/lib/dbus/machine-id 
+    register: id
+
+  - name: Creating a haproxy.ini file
+    copy:
+      dest: "/vagrant/webui.ini"
+      content: |
+        [general]
+        uniqueID={{ id }}
+   

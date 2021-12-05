@@ -1,0 +1,27 @@
+---
+- name: adding rsyslog repo
+  apt_repository:
+    repo: ppa:adiscon/v8-devel
+
+- name: install rsylog
+  apt: 
+    update_cache: yes
+    name: rsyslog
+    state: present
+
+- name: configure rsyslog.conf
+  lineinfile:
+    path: /etc/rsyslog.conf
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  loop: '{{ lines_to_conf }}'
+
+
+
+- name: create all.conf
+  template:
+    src: all.conf
+    dest: /etc/rsyslog.d
+  notify:
+    - restart rsyslog
+    

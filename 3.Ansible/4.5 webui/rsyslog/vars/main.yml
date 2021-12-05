@@ -1,0 +1,12 @@
+---
+lines_to_conf:
+  - { regexp: '^(.*)ModLoad imudp(.*)$', line: '$ModLoad imudp'}
+  - { regexp: '^(.*)UDPServerRun(.*)$', line: '$UDPServerRun 514'}
+  - { regexp: '^(.*)ModLoad imtcp(.*)$', line: '$ModLoad imtcp'}
+  - { regexp: '^(.*)InputTCPServerRun 514(.*)$', line: '$InputTCPServerRun 514'}
+
+
+
+
+ip_logstash: 192.168.33.3
+port_logstash: 10514
